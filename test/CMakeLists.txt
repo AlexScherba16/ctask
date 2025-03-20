@@ -4,6 +4,7 @@ enable_testing()
 
 add_executable(test test_main.cpp
         cli_test/cli_test.cpp
+        network_test/http_test/parser_test/json_http_parser_test.cpp
 )
 
 target_include_directories(test PRIVATE ${CMAKE_SOURCE_DIR}/ctask_lib)
