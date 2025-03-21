@@ -1,11 +1,11 @@
 #ifndef ROUTER_H
 #define ROUTER_H
 
-#include "utils/types/types.h"
+#include "network/http/router/i_router.h"
 
 namespace ctask::network::http::router
 {
-    using namespace ctask::utils::types;
+    namespace Types = utils::types;
 
     /**
      * @class HttpRouter
@@ -14,17 +14,11 @@ namespace ctask::network::http::router
      * The router maps routes to handler functions and supports parameter extraction
      * similar to lightweight web frameworks.
      */
-    class HttpRouter final
+    class HttpRouter final : public IRouter
     {
     public:
         HttpRouter() = default;
-        ~HttpRouter() = default;
-
-        HttpRouter(const HttpRouter&) = delete;
-        HttpRouter& operator=(const HttpRouter&) = delete;
-
-        HttpRouter(HttpRouter&& other) noexcept;
-        HttpRouter& operator=(HttpRouter&& other) noexcept;
+        ~HttpRouter() override = default;
 
         /**
           * @brief Registers a handler for an HTTP GET path.
@@ -34,7 +28,7 @@ namespace ctask::network::http::router
           *
           * @throws If path already registered
           */
-        void addGet(HttpPath path, HttpHandlerFn handler);
+        void addGet(Types::HttpPath path, Types::HttpHandlerFn handler) override;
 
         /**
           * @brief Registers a handler for an HTTP POST path.
@@ -44,7 +38,7 @@ namespace ctask::network::http::router
           *
           * @throws If path already registered
           */
-        void addPost(HttpPath path, HttpHandlerFn handler);
+        void addPost(Types::HttpPath path, Types::HttpHandlerFn handler) override;
 
 
         /**
@@ -62,10 +56,10 @@ namespace ctask::network::http::router
          * @param request Incoming HTTP request.
          * @return HttpResponse The result of the matched handler.
          */
-        HttpResponse route(HttpRequest& request) noexcept;
+        Types::HttpResponse route(Types::HttpRequest& request) noexcept override;
 
     private:
-        using pathHandlerMap = std::unordered_map<HttpPath, HttpHandlerFn>;
+        using pathHandlerMap = std::unordered_map<Types::HttpPath, Types::HttpHandlerFn>;
         pathHandlerMap getHandlers_;
         pathHandlerMap postHandlers_;
 
@@ -80,7 +74,7 @@ namespace ctask::network::http::router
          *
          * @throws If path already registered
          */
-        void registerHandler_(HttpPath path, HttpHandlerFn handler,
+        void registerHandler_(Types::HttpPath path, Types::HttpHandlerFn handler,
                               pathHandlerMap& map);
 
         /**
@@ -93,7 +87,7 @@ namespace ctask::network::http::router
          * @param handlersMap The map of handlers (GET or POST).
          * @return HttpResponse The result of the matched handler.
          */
-        HttpResponse processRouting_(HttpRequest& request, pathHandlerMap& handlersMap);
+        Types::HttpResponse processRouting_(Types::HttpRequest& request, pathHandlerMap& handlersMap);
 
 
         // parameter positions and helper methods to operate with parameterized pathes,
@@ -106,7 +100,7 @@ namespace ctask::network::http::router
          */
         struct ParameterMetaData
         {
-            ParameterName name{};
+            Types::ParameterName name{};
             size_t positionInPath{0};
         };
 
@@ -116,7 +110,7 @@ namespace ctask::network::http::router
          */
         struct RouteParameterInfo
         {
-            HttpPath parameterizedPath;
+            Types::HttpPath parameterizedPath;
             std::vector<ParameterMetaData> parametersMeta;
         };
 
@@ -139,7 +133,7 @@ namespace ctask::network::http::router
          * @param path The original path string (may contain parameters like {id}).
          * @return HttpPath The normalized path template.
          */
-        HttpPath buildParameterizedPathTemplate_(std::string_view path) const;
+        Types::HttpPath buildParameterizedPathTemplate_(std::string_view path) const;
 
         /**
          * @brief Parses parameter values from the actual path.
@@ -150,9 +144,9 @@ namespace ctask::network::http::router
          * @param paramMeta Parameter positions and names.
          * @return Map of parameter names to values.
          */
-        std::unordered_map<ParameterName, ParameterValue> parseParameters_(std::string_view path,
-                                                                           const std::vector<ParameterMetaData>&
-                                                                           paramMeta)
+        std::unordered_map<Types::ParameterName, Types::ParameterValue> parseParameters_(std::string_view path,
+            const std::vector<ParameterMetaData>&
+            paramMeta)
         const;
 
         /**

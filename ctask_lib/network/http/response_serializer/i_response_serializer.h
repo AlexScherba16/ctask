@@ -5,7 +5,7 @@
 
 namespace ctask::network::http::response_serializer
 {
-    using namespace ctask::utils::types;
+    namespace Types = utils::types;
 
     /**
      * @interface IResponseSerializer
@@ -30,7 +30,7 @@ namespace ctask::network::http::response_serializer
          * @param response Full response metadata (status, headers, body).
          * @return serialized Raw HTTP response (ready to send to client).
          */
-        virtual std::string serialize(const HttpResponseMeta& response) = 0;
+        virtual std::string serialize(const Types::HttpResponseMeta& response) = 0;
     };
 }
 #endif //I_RESPONSE_SERIALIZER_H

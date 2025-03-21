@@ -5,6 +5,8 @@
 
 namespace ctask::network::http::response_serializer
 {
+    namespace Types = utils::types;
+
     /**
      * @class JsonHttpResponseSerializer
      * @brief JSON body HTTP response serializer (JSON-style body, basic headers).
@@ -15,6 +17,7 @@ namespace ctask::network::http::response_serializer
     class JsonHttpResponseSerializer final : public IResponseSerializer
     {
     public:
+        JsonHttpResponseSerializer() = default;
         ~JsonHttpResponseSerializer() override = default;
 
         /**
@@ -25,7 +28,7 @@ namespace ctask::network::http::response_serializer
          * @param response Full response to serialize.
          * @return std::string Raw HTTP response string.
          */
-        std::string serialize(const HttpResponseMeta& response) override;
+        std::string serialize(const Types::HttpResponseMeta& response) override;
     };
 }
 #endif //JSON_HTTP_RESPONSE_SERIALIZER_H

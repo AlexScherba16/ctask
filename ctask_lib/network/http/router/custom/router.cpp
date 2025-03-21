@@ -1,30 +1,11 @@
 #include "router.h"
 
-#include <iomanip>
 #include <iostream>
 #include <sstream>
-#include <__ranges/split_view.h>
 
 namespace ctask::network::http::router
 {
-    HttpRouter::HttpRouter(HttpRouter&& other) noexcept : getHandlers_(std::move(other.getHandlers_)),
-                                                          postHandlers_(std::move(other.postHandlers_)),
-                                                          pathParametersInfo_(
-                                                              std::move(other.pathParametersInfo_))
-    {
-    }
-
-    HttpRouter& HttpRouter::operator=(HttpRouter&& other) noexcept
-    {
-        if (this == &other)
-        {
-            return *this;
-        }
-        getHandlers_ = std::move(other.getHandlers_);
-        postHandlers_ = std::move(other.postHandlers_);
-        pathParametersInfo_ = std::move(other.pathParametersInfo_);
-        return *this;
-    }
+    using namespace utils::types;
 
     void HttpRouter::addGet(HttpPath path, HttpHandlerFn handler)
     {

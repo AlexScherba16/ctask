@@ -9,8 +9,8 @@
 
 namespace ctask::network::http::parser
 {
-    using namespace ctask::utils::types;
-    using namespace ctask::utils::constants;
+    namespace Types = utils::types;
+    namespace Constants = utils::constants;
 
     /**
      * @brief JSON-based HTTP request parser.
@@ -36,7 +36,7 @@ namespace ctask::network::http::parser
          * @param rawRequest The raw HTTP request as a string view.
          * @return HttpRequest A structured representation of the request.
          */
-        HttpRequest parseRequest(std::string_view rawRequest) override;
+        Types::HttpRequest parseRequest(std::string_view rawRequest) override;
 
     private:
         /**
@@ -48,9 +48,9 @@ namespace ctask::network::http::parser
          */
         struct HttpRequestParsingState
         {
-            HttpRequest request;
-            HttpHeaderField currentHeaderField;
-            HttpHeaderField currentHeaderValue;
+            Types::HttpRequest request;
+            Types::HttpHeaderField currentHeaderField;
+            Types::HttpHeaderField currentHeaderValue;
         };
 
         // third-party http parser and its settings
@@ -131,41 +131,41 @@ namespace ctask::network::http::parser
          * Each function verifies a specific requirement of the HTTP request and
          * throws a runtime error if validation fails.
          */
-        using throwIfEmpty = std::function<void(const HttpRequest& r)>;
+        using throwIfEmpty = std::function<void(const Types::HttpRequest& r)>;
 
         std::vector<throwIfEmpty> validators_{
             // validate PATH
-            [](const HttpRequest& r) { if (r.path.empty()) throw std::runtime_error("Empty path"); },
+            [](const Types::HttpRequest& r) { if (r.path.empty()) throw std::runtime_error("Empty path"); },
 
             // validate version
-            [](const HttpRequest& r) { if (r.version.empty()) throw std::runtime_error("Empty version"); },
+            [](const Types::HttpRequest& r) { if (r.version.empty()) throw std::runtime_error("Empty version"); },
 
             // validate headers
-            [](const HttpRequest& r) { if (r.headers.empty()) throw std::runtime_error("Empty headers"); },
+            [](const Types::HttpRequest& r) { if (r.headers.empty()) throw std::runtime_error("Empty headers"); },
 
             // validate body
-            [](const HttpRequest& r)
+            [](const Types::HttpRequest& r)
             {
-                if (r.method != HttpMethod::GET_METHOD && r.body.empty()) throw std::runtime_error("Empty body");
+                if (r.method != Types::HttpMethod::GET_METHOD && r.body.empty()) throw std::runtime_error("Empty body");
             },
 
             // validate content length header; expected content length and actual length of body
-            [](const HttpRequest& r)
+            [](const Types::HttpRequest& r)
             {
-                if (r.method == HttpMethod::GET_METHOD || r.method == HttpMethod::UNKNOWN_METHOD) return;
-                const auto it{r.headers.find(CONTENT_LENGTH_HEADER)};
+                if (r.method == Types::HttpMethod::GET_METHOD || r.method == Types::HttpMethod::UNKNOWN_METHOD) return;
+                const auto it{r.headers.find(Constants::CONTENT_LENGTH_HEADER)};
                 if (it == r.headers.end()) throw std::runtime_error("Empty content length");
                 auto contentLen{static_cast<size_t>(std::stoll(it.operator->()->second))};
                 if (contentLen != r.body.size()) throw std::runtime_error("Content length mismatch");
             },
 
             // validate content type header
-            [](const HttpRequest& r)
+            [](const Types::HttpRequest& r)
             {
-                if (r.method == HttpMethod::GET_METHOD || r.method == HttpMethod::UNKNOWN_METHOD) return;
-                const auto it{r.headers.find(CONTENT_TYPE_HEADER)};
+                if (r.method == Types::HttpMethod::GET_METHOD || r.method == Types::HttpMethod::UNKNOWN_METHOD) return;
+                const auto it{r.headers.find(Constants::CONTENT_TYPE_HEADER)};
                 if (it == r.headers.end()) throw std::runtime_error("Empty content type");
-                if (it->second != JSON_CONTENT_TYPE)
+                if (it->second != Constants::JSON_CONTENT_TYPE)
                     throw std::runtime_error(
                         "Invalid content type, application/json is expected");
             },

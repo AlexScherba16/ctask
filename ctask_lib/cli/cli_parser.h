@@ -30,7 +30,7 @@ namespace ctask::cli_parser
         * @param appName Name of the application.
         * @param appDescription Brief description of the application.
         */
-        CliParser(std::string appName, std::string appDescription);
+        explicit CliParser(std::string appName, std::string appDescription);
 
         /**
          * @brief Parses command-line arguments.

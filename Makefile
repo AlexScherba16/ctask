@@ -9,7 +9,7 @@ build:
 	@cmake --build ${BUILD_DIR} --parallel 8
 
 run:
-	${BUILD_DIR}/ctask
+	${BUILD_DIR}/ctask --config=${CURRENT_DIR}/config/config.json
 
 run_test:
 	${BUILD_DIR}/test/test

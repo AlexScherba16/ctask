@@ -5,6 +5,7 @@
 
 namespace ctask::network::http::parser
 {
+    using namespace utils::types;
     using namespace ctask::utils;
 
     JsonHttpParser::JsonHttpParser()

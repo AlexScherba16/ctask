@@ -5,7 +5,7 @@
 
 namespace ctask::network::http::parser
 {
-    using namespace ctask::utils::types;
+    namespace Types = utils::types;
 
     /**
      * @interface IHttpParser
@@ -33,7 +33,7 @@ namespace ctask::network::http::parser
          * @param rawRequest The raw HTTP request as a string view.
          * @return HttpRequest A parsed representation of the request.
          */
-        virtual HttpRequest parseRequest(std::string_view rawRequest) = 0;
+        virtual Types::HttpRequest parseRequest(std::string_view rawRequest) = 0;
     };
 }
 #endif //I_PARSER_H

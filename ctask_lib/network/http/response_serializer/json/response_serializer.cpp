@@ -7,8 +7,8 @@
 
 namespace ctask::network::http::response_serializer
 {
-    using namespace ctask::utils::misc;
     using namespace nlohmann;
+    using namespace ctask::utils::misc;
 
     std::string JsonHttpResponseSerializer::serialize(const HttpResponseMeta& response)
     {
