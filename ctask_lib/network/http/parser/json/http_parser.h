@@ -43,6 +43,8 @@ namespace ctask::network::http::parser
          * @struct HttpRequestParsingState
          * @brief Internal state used during HTTP request parsing.
          * Using as a helper structure to utilize http headers parsing process.
+         *
+         * @throws If post parsing request validation failed
          */
         struct HttpRequestParsingState
         {

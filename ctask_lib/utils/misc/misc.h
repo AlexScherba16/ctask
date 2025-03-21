@@ -72,6 +72,38 @@ namespace ctask::utils::misc
         const auto it{methodMap.find(method)};
         return (it != methodMap.end()) ? it->second : HttpMethod::UNKNOWN_METHOD;
     }
+
+    /**
+     * @brief Returns a human-friendly name for the given HTTP status code.
+     */
+    static std::string_view httpStatusName(HttpStatusCode code)
+    {
+        static const std::unordered_map<HttpStatusCode, std::string_view> codesNames = {
+            {HttpStatusCode::HTTP_STATUS_OK, "OK"},
+            {HttpStatusCode::HTTP_STATUS_BAD_REQUEST, "BAD_REQUEST"},
+            {HttpStatusCode::HTTP_STATUS_NOT_FOUND, "NOT_FOUND"},
+            {HttpStatusCode::HTTP_STATUS_INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR"},
+            {HttpStatusCode::HTTP_STATUS_NOT_IMPLEMENTED, "NOT_IMPLEMENTED"},
+        };
+        const auto it{codesNames.find(code)};
+        return (it != codesNames.end()) ? it->second : "UNKNOWN_CODE_NAME";
+    }
+
+    /**
+     * @brief Converts HTTP status code enum to its numeric string representation.
+     */
+    static std::string_view httpStatusCodeToString(HttpStatusCode code)
+    {
+        static const std::unordered_map<HttpStatusCode, std::string_view> codesMap = {
+            {HttpStatusCode::HTTP_STATUS_OK, "200"},
+            {HttpStatusCode::HTTP_STATUS_BAD_REQUEST, "400"},
+            {HttpStatusCode::HTTP_STATUS_NOT_FOUND, "404"},
+            {HttpStatusCode::HTTP_STATUS_INTERNAL_SERVER_ERROR, "500"},
+            {HttpStatusCode::HTTP_STATUS_NOT_IMPLEMENTED, "501"},
+        };
+        const auto it{codesMap.find(code)};
+        return (it != codesMap.end()) ? it->second : "UNKNOWN_CODE";
+    }
 }
 
 #endif //MISC_H
