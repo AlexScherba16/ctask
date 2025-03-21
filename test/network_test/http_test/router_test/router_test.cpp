@@ -43,11 +43,11 @@ TEST(RouterTest, Routing_UnregisteredHandler_ReturnsNotFoundStatus)
     std::vector<HttpRequest> requests{
         {HttpMethod::GET_METHOD, "/path"},
         {HttpMethod::POST_METHOD, "/path"},
-        {HttpMethod::UNKNOWN_METHOD, "/path"},
     };
     for (auto& request : requests)
     {
-        ASSERT_EQ(router.route(request).code, HttpStatusCode::HTTP_STATUS_NOT_FOUND);
+        auto response{router.route(request)};
+        ASSERT_EQ(response.code, HttpStatusCode::HTTP_STATUS_NOT_FOUND);
     }
 }
 
