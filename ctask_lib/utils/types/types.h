@@ -94,12 +94,25 @@ namespace ctask::utils::types
      * @brief Final HTTP response to be sent to the client.
      *
      * Will be serialized into raw HTTP format and written to the socket.
-     * Minimal on purpose — just status and body for now.
+     * Minimal on purpose — just status and body and headers for now.
      */
     struct HttpResponse
     {
         HttpStatusCode code{HttpStatusCode::HTTP_STATUS_OK};
-        std::string message{""};
+        std::string message{};
+        std::unordered_map<HttpHeaderField, HttpHeaderValue> headers{};
+    };
+
+    /**
+     * @struct HttpResponseMeta
+     * @brief Represents the final HTTP response metadata to be serialized and sent to the client.
+     *
+     * Contains the core payload and associated metadata like protocol version.
+     */
+    struct HttpResponseMeta
+    {
+        HttpResponse payload{};
+        std::string protocolVersion{};
     };
 
     /**
