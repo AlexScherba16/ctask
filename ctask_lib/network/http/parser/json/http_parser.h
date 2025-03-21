@@ -47,8 +47,8 @@ namespace ctask::network::http::parser
         struct HttpRequestParsingState
         {
             HttpRequest request;
-            HeaderField currentHeaderField;
-            HeaderField currentHeaderValue;
+            HttpHeaderField currentHeaderField;
+            HttpHeaderField currentHeaderValue;
         };
 
         // third-party http parser and its settings
@@ -132,8 +132,8 @@ namespace ctask::network::http::parser
         using throwIfEmpty = std::function<void(const HttpRequest& r)>;
 
         std::vector<throwIfEmpty> validators_{
-            // validate URL
-            [](const HttpRequest& r) { if (r.url.empty()) throw std::runtime_error("Empty url"); },
+            // validate PATH
+            [](const HttpRequest& r) { if (r.path.empty()) throw std::runtime_error("Empty path"); },
 
             // validate version
             [](const HttpRequest& r) { if (r.version.empty()) throw std::runtime_error("Empty version"); },
@@ -160,9 +160,10 @@ namespace ctask::network::http::parser
             // validate content type header
             [](const HttpRequest& r)
             {
+                if (r.method == HttpMethod::GET_METHOD || r.method == HttpMethod::UNKNOWN_METHOD) return;
                 const auto it{r.headers.find(CONTENT_TYPE_HEADER)};
                 if (it == r.headers.end()) throw std::runtime_error("Empty content type");
-                if (it->first != JSON_CONTENT_TYPE)
+                if (it->second != JSON_CONTENT_TYPE)
                     throw std::runtime_error(
                         "Invalid content type, application/json is expected");
             },

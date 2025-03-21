@@ -1,4 +1,4 @@
-#include "json_http_parser.h"
+#include "http_parser.h"
 #include "utils/misc/misc.h"
 
 #include <format>
@@ -79,7 +79,7 @@ namespace ctask::network::http::parser
     int JsonHttpParser::onUrl_(llhttp_t* parser, const char* at, size_t length)
     {
         auto state{static_cast<HttpRequestParsingState*>(parser->data)};
-        state->request.url.assign(at, length);
+        state->request.path.assign(at, length);
         return HPE_OK;
     }
 
