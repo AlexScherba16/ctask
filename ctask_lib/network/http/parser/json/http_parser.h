@@ -13,6 +13,7 @@ namespace ctask::network::http::parser
     namespace Constants = utils::constants;
 
     /**
+     * @class JsonHttpParser
      * @brief JSON-based HTTP request parser.
      *
      * This class provides an implementation of IHttpParser that uses the llhttp library
