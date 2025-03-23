@@ -12,13 +12,26 @@ namespace ctask::utils::types
     * @brief Arguments required to configure and run the HTTP server.
     *
     * Just the basics — nothing fancy.
-    * Address to bind, port to listen on, and number of threads to handle requests.
+    * Address to bind, port to listen on, keep-alive period
+    * and number of threads to handle requests.
     */
     struct HttpServerArgs
     {
         std::string address;
         uint16_t port;
         size_t threads;
+        uint16_t keepAliveSec;
+    };
+
+    /**
+    * @struct LoggerArgs
+    * @brief Arguments required to logger.
+    *
+    * Just the level :)
+    */
+    struct LoggerArgs
+    {
+        std::string level;
     };
 
     /**
@@ -30,6 +43,7 @@ namespace ctask::utils::types
     struct CliArgs
     {
         HttpServerArgs serverArgs{};
+        LoggerArgs loggerArgs{};
     };
 
     // Some of these structures might seem excessive, but I added them to keep
