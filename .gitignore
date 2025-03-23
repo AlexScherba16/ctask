@@ -6,3 +6,7 @@ cmake-build-debug/
 cmake-build-release/
 
 _build/
+
+ctask_lib/utils/.DS_Store
+
+cmake-build-debug-coverage/
