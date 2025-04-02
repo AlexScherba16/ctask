@@ -34,7 +34,7 @@ namespace ctask::cli_parser
         ss << configFile.rdbuf();
         configFile.close();
 
-        auto config{nlohmann::json::parse(ss.str())};
+        auto config = nlohmann::json::parse(ss.str());
         return {
             {
                 config["server"]["address"].get<std::string>(),

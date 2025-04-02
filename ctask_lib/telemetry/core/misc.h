@@ -1,8 +1,12 @@
 #ifndef TELEMETRY_MISC_H
 #define TELEMETRY_MISC_H
 
-#include <stdint.h>
+#include <array>
+#include <string>
+#include <vector>
 #include <numeric>
+#include <cstdint>
+#include <stdexcept>
 
 namespace ctask::telemetry::core
 {

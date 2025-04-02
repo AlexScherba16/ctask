@@ -2,6 +2,7 @@
 #define TYPES_H
 
 #include <string>
+#include <cstdint>
 #include <functional>
 #include <unordered_map>
 

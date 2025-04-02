@@ -30,7 +30,13 @@ add_library(ctask_lib STATIC
 )
 
 target_include_directories(ctask_lib PRIVATE ${CMAKE_SOURCE_DIR}/ctask_lib)
-target_compile_options(ctask_lib PRIVATE -fexperimental-library)
+
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    message(STATUS "Set -fexperimental-library option to support fancy c++20 jthreads on MacOS 🍎")
+    target_compile_options(ctask_lib PUBLIC -fexperimental-library)
+endif ()
+
 target_link_libraries(ctask_lib
         cxxopts::cxxopts
         nlohmann_json::nlohmann_json

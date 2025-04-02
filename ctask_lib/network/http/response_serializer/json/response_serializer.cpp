@@ -3,6 +3,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include <format>
 #include <sstream>
 
 namespace ctask::network::http::response_serializer

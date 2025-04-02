@@ -3,6 +3,8 @@
 
 #include "network/http/router/i_router.h"
 
+#include <memory>
+
 namespace ctask::network::http::router
 {
     /**

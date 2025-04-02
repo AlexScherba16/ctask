@@ -1,4 +1,6 @@
 #include "telemetry_storage.h"
+
+#include <mutex>
 #include <shared_mutex>
 
 namespace ctask::telemetry::core
